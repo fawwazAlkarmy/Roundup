@@ -14,7 +14,12 @@ type Props = {
 };
 
 const Login = ({ navigation }: Props) => {
-  const { control, handleSubmit, reset } = useForm<FormData>();
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>();
   const onSubmit = ({ email, password }: FormData) => {
     console.log(email, password);
     reset();
@@ -32,6 +37,10 @@ const Login = ({ navigation }: Props) => {
         name="email"
         control={control}
         defaultValue=""
+        rules={{
+          required: true,
+          pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+        }}
         render={({ field: { onChange, onBlur, value } }) => (
           <InputField
             text="Email"
@@ -47,6 +56,10 @@ const Login = ({ navigation }: Props) => {
         name="password"
         control={control}
         defaultValue=""
+        rules={{
+          required: true,
+          minLength: 8,
+        }}
         render={({ field: { onChange, onBlur, value } }) => (
           <InputField
             text="Password"

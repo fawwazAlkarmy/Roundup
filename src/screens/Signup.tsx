@@ -14,7 +14,12 @@ type Props = {
 };
 
 const Signup = ({ navigation }: Props) => {
-  const { control, handleSubmit, reset } = useForm<FormData>();
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>();
   const onSubmit = ({ name, email, password }: FormData) => {
     console.log(name, email, password);
     reset();
@@ -33,6 +38,11 @@ const Signup = ({ navigation }: Props) => {
         name="name"
         control={control}
         defaultValue=""
+        rules={{
+          required: true,
+          minLength: 3,
+          maxLength: 20,
+        }}
         render={({ field: { onChange, onBlur, value } }) => (
           <InputField
             text="Name"
@@ -44,10 +54,15 @@ const Signup = ({ navigation }: Props) => {
           />
         )}
       />
+      {errors.name && <Text> Name Error</Text>}
       <Controller
         name="email"
         control={control}
         defaultValue=""
+        rules={{
+          required: true,
+          pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+        }}
         render={({ field: { onChange, onBlur, value } }) => (
           <InputField
             text="Email"
@@ -59,10 +74,15 @@ const Signup = ({ navigation }: Props) => {
           />
         )}
       />
+      {errors.email && <Text> email Error</Text>}
       <Controller
         name="password"
         control={control}
         defaultValue=""
+        rules={{
+          required: true,
+          minLength: 8,
+        }}
         render={({ field: { onChange, onBlur, value } }) => (
           <InputField
             text="Password"
@@ -74,7 +94,7 @@ const Signup = ({ navigation }: Props) => {
           />
         )}
       />
-
+      {errors.password && <Text> Password Error</Text>}
       <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
         <Text style={[mainStyles.boldFont, styles.btnText]}>Signup</Text>
       </Pressable>
