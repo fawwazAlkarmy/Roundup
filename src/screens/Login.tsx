@@ -8,20 +8,19 @@ import InputField from "../components/InputField";
 import Icon from "react-native-remix-icon";
 import { Controller, useForm } from "react-hook-form";
 import { FormData } from "../types";
+import useLogin from "../hooks/useLogin";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Login">;
 };
 
 const Login = ({ navigation }: Props) => {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>();
+  const { control, handleSubmit, reset } = useForm<FormData>();
+
+  const { signinWithEmail } = useLogin({ navigation });
+
   const onSubmit = ({ email, password }: FormData) => {
-    console.log(email, password);
+    signinWithEmail(email, password);
     reset();
   };
   return (
@@ -58,7 +57,6 @@ const Login = ({ navigation }: Props) => {
         defaultValue=""
         rules={{
           required: true,
-          minLength: 8,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <InputField

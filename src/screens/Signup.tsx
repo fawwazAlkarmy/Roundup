@@ -8,6 +8,7 @@ import InputField from "../components/InputField";
 import Icon from "react-native-remix-icon";
 import { Controller, useForm } from "react-hook-form";
 import { FormData } from "../types";
+import useSignup from "../hooks/useSignup";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Signup">;
@@ -20,10 +21,14 @@ const Signup = ({ navigation }: Props) => {
     reset,
     formState: { errors },
   } = useForm<FormData>();
-  const onSubmit = ({ name, email, password }: FormData) => {
-    console.log(name, email, password);
+
+  const { signupWithEmail } = useSignup({ navigation });
+
+  const onSubmit = ({ email, password, name }: FormData) => {
+    signupWithEmail(email, password);
     reset();
   };
+
   return (
     <View style={styles.container}>
       <Pressable onPress={() => navigation.navigate("Login")}>
@@ -54,7 +59,14 @@ const Signup = ({ navigation }: Props) => {
           />
         )}
       />
-      {errors.name && <Text> Name Error</Text>}
+      {errors.name && (
+        <View style={styles.errorContainer}>
+          <Icon name="information-line" size={14} color={Colors.error} />
+          <Text style={[mainStyles.normalFont, styles.errorText]}>
+            Name should be at least 3 Characters
+          </Text>
+        </View>
+      )}
       <Controller
         name="email"
         control={control}
@@ -74,7 +86,14 @@ const Signup = ({ navigation }: Props) => {
           />
         )}
       />
-      {errors.email && <Text> email Error</Text>}
+      {errors.email && (
+        <View style={styles.errorContainer}>
+          <Icon name="information-line" size={14} color={Colors.error} />
+          <Text style={[mainStyles.normalFont, styles.errorText]}>
+            Please enter a valid email address
+          </Text>
+        </View>
+      )}
       <Controller
         name="password"
         control={control}
@@ -94,7 +113,16 @@ const Signup = ({ navigation }: Props) => {
           />
         )}
       />
-      {errors.password && <Text> Password Error</Text>}
+
+      {errors.password && (
+        <View style={styles.errorContainer}>
+          <Icon name="information-line" size={14} color={Colors.error} />
+          <Text style={[mainStyles.normalFont, styles.errorText]}>
+            Password should be at least 8 Characters
+          </Text>
+        </View>
+      )}
+
       <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
         <Text style={[mainStyles.boldFont, styles.btnText]}>Signup</Text>
       </Pressable>
@@ -192,5 +220,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: Colors.secondary,
     fontSize: 12,
+  },
+  errorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+  errorText: {
+    fontSize: 10,
+    color: Colors.error,
   },
 });

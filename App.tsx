@@ -6,6 +6,7 @@ import { Colors } from "./src/colors";
 import * as SplashScreen from "expo-splash-screen";
 import StackNavigator from "./src/navigation/StackNavigator";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Toast from "react-native-toast-message";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ export default function App() {
       <NavigationContainer>
         <StackNavigator />
       </NavigationContainer>
+      <Toast />
     </QueryClientProvider>
   );
 }
