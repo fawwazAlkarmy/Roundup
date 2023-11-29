@@ -8,39 +8,34 @@ type UseSignupProps = {
 };
 
 const useSignup = ({ navigation }: UseSignupProps) => {
-  const signupWithEmail = async (email: string, password: string) => {
-    const {
-      data: { session },
-      error,
-    } = await supabase.auth.signUp({
+  const signupWithEmail = async (
+    email: string,
+    password: string,
+    name: string | undefined
+  ) => {
+    const { error: authError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          username: name,
+        },
+      },
     });
-    if (error) {
+
+    if (authError) {
       Toast.show({
         type: "error",
-        text1: `${error.message} 😕 `,
+        text1: `${authError.message} 😕 `,
         position: "top",
         topOffset: 50,
         autoHide: true,
         visibilityTime: 3000,
       });
-    } else if (!session) {
-      Toast.show({
-        type: "success",
-        text1: "Please check your inbox for email verification! ✅",
-        position: "top",
-        topOffset: 50,
-        autoHide: true,
-        visibilityTime: 3000,
-      });
-      setTimeout(() => {
-        navigation.navigate("Login");
-      }, 3000);
     } else {
       Toast.show({
         type: "success",
-        text1: "Account created successfully! 🎉",
+        text1: "User Created Successfully! 🎉",
         position: "top",
         topOffset: 50,
         autoHide: true,
@@ -51,6 +46,7 @@ const useSignup = ({ navigation }: UseSignupProps) => {
       }, 3000);
     }
   };
+
   return { signupWithEmail };
 };
 

@@ -7,6 +7,8 @@ import * as SplashScreen from "expo-splash-screen";
 import StackNavigator from "./src/navigation/StackNavigator";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
+import { supabase } from "./src/services/supabase";
+import useGlobalStore from "./src/store/useStore";
 
 const queryClient = new QueryClient();
 
@@ -18,12 +20,17 @@ export default function App() {
     Orbitron: require("./assets/fonts/Orbitron.ttf"),
   });
 
+  const fetchUser = useGlobalStore((state) => state.fetchUser);
+
   const onLayoutRootView = useCallback(async () => {
     await SplashScreen.hideAsync();
   }, []);
 
   useEffect(() => {
     onLayoutRootView();
+    supabase.auth.onAuthStateChange(() => {
+      fetchUser();
+    });
   }, [onLayoutRootView]);
 
   if (!fontsLoaded || fontError) {

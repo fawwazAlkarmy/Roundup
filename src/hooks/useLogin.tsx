@@ -25,7 +25,7 @@ const useLogin = ({ navigation }: UseLoginProps) => {
     } else {
       Toast.show({
         type: "success",
-        text1: "Welcome back! 🎉",
+        text1: "Welcome back! 👋",
         position: "top",
         topOffset: 50,
         autoHide: true,

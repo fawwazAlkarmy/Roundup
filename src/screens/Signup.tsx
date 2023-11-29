@@ -25,7 +25,7 @@ const Signup = ({ navigation }: Props) => {
   const { signupWithEmail } = useSignup({ navigation });
 
   const onSubmit = ({ email, password, name }: FormData) => {
-    signupWithEmail(email, password);
+    signupWithEmail(email, password, name);
     reset();
   };
 
