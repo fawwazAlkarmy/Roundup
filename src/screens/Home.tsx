@@ -11,6 +11,7 @@ import SideMenu from "../components/SideMenu";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import FeaturedArticlesList from "../components/FeaturedArticlesList";
+import useStore from "../store/useStore";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
@@ -19,8 +20,9 @@ type Props = {
 const Home = ({ navigation }: Props) => {
   const date = dayjs();
   const formattedDate = date.format("dddd, MMMM D, YYYY");
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [category, setCategory] = useState("general");
+  const menuIsOpen = useStore((state) => state.menuIsOpen);
+  const setMenuIsOpen = useStore((state) => state.setMenuIsOpen);
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -45,10 +47,8 @@ const Home = ({ navigation }: Props) => {
           <FeaturedArticlesList navigation={navigation} category={category} />
         </View>
       </View>
-      {menuIsOpen && (
-        <SideMenu setMenuIsOpen={setMenuIsOpen} navigation={navigation} />
-      )}
-      <BottomNav />
+      {menuIsOpen && <SideMenu navigation={navigation} />}
+      <BottomNav navigation={navigation} />
     </View>
   );
 };

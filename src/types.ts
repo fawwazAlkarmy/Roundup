@@ -7,6 +7,8 @@ export type RootStackParamList = {
   Search: { searchInput: string };
   Article: { article: Article };
   AiPicks: undefined;
+  Profile: undefined;
+  EditProfile: undefined;
 };
 
 export type Article = {
@@ -26,6 +28,19 @@ export type FormData = {
   name?: string;
   email: string;
   password: string;
+};
+
+export type profileData = {
+  name: string;
+  email: string;
+  bio?: string;
+  facebookUrl?: string;
+  instagramUrl?: string;
+};
+
+export type ProfileField = {
+  name: keyof profileData;
+  label: string;
 };
 
 export type AiPick = {

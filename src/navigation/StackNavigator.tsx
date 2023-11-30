@@ -9,6 +9,8 @@ import Signup from "../screens/Signup";
 import Search from "../screens/Search";
 import ArticleDetails from "../screens/ArticleDetails";
 import AiPicks from "../screens/AiPicks";
+import Profile from "../screens/Profile";
+import EditProfile from "../screens/EditProfile";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -53,6 +55,16 @@ const StackNavigator = () => {
       <Stack.Screen
         name="AiPicks"
         component={AiPicks}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

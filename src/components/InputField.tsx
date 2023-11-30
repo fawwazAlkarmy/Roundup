@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import Icon from "react-native-remix-icon";
 import { Colors } from "../colors";
 import { mainStyles } from "../../App";

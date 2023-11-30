@@ -6,6 +6,8 @@ interface Store {
   user: User | null;
   fetchUser: () => Promise<User | null>;
   setUser: (user: User | null) => void;
+  menuIsOpen: boolean;
+  setMenuIsOpen: (menuIsOpen: boolean) => void;
 }
 
 const useStore = create<Store>((set) => ({
@@ -27,6 +29,10 @@ const useStore = create<Store>((set) => ({
   },
   setUser: (user: User | null) => {
     set({ user });
+  },
+  menuIsOpen: false,
+  setMenuIsOpen: (menuIsOpen: boolean) => {
+    set({ menuIsOpen });
   },
 }));
 

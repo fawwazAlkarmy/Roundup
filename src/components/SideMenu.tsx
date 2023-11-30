@@ -12,13 +12,13 @@ import Toast from "react-native-toast-message";
 import useStore from "../store/useStore";
 
 type Props = {
-  setMenuIsOpen: (value: boolean) => void;
   navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
 };
 
-const SideMenu = ({ setMenuIsOpen, navigation }: Props) => {
+const SideMenu = ({ navigation }: Props) => {
   const user = useStore((state) => state.user);
   const setUser = useStore((state) => state.setUser);
+  const setMenuIsOpen = useStore((state) => state.setMenuIsOpen);
 
   const handleLoginNavigation = () => {
     navigation.navigate("Login");
