@@ -1,4 +1,11 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Linking,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import BottomNav from "../components/BottomNav";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
@@ -13,6 +20,9 @@ type Props = {
 
 const Profile = ({ navigation }: Props) => {
   const profile = useStore((state) => state.profile);
+  const openLink = (url: string) => {
+    Linking.openURL(url);
+  };
   return (
     <>
       <View style={styles.container}>
@@ -84,14 +94,20 @@ const Profile = ({ navigation }: Props) => {
         <View style={styles.sectionContainer}>
           <Text style={[mainStyles.boldFont]}>Social Media</Text>
           <View style={styles.socialContainer}>
-            <Pressable style={styles.iconTextContainer}>
+            <Pressable
+              style={styles.iconTextContainer}
+              onPress={() => openLink(profile?.facebook_url || "")}
+            >
               <Icon
                 name="facebook-circle-fill"
                 size={20}
                 color={Colors.primary}
               />
             </Pressable>
-            <Pressable style={styles.iconTextContainer}>
+            <Pressable
+              style={styles.iconTextContainer}
+              onPress={() => openLink(profile?.instagram_url || "")}
+            >
               <Icon name="instagram-fill" size={20} color={Colors.primary} />
             </Pressable>
           </View>

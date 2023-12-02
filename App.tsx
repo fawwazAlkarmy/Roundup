@@ -15,7 +15,7 @@ const queryClient = new QueryClient();
 export default function App() {
   // loading fonts
   const [fontsLoaded, fontError] = useFonts({
-    Lora: require("./assets/fonts/Lora.ttf"),
+    Lora: require("./assets/fonts/Lora-Regular.ttf"),
     LoraBold: require("./assets/fonts/Lora-BoldItalic.ttf"),
     Orbitron: require("./assets/fonts/Orbitron.ttf"),
   });
