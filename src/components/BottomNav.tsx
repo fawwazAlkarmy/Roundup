@@ -5,6 +5,7 @@ import Icon from "react-native-remix-icon";
 import { useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
+import useStore from "../store/useStore";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
@@ -12,9 +13,21 @@ type Props = {
 
 const BottomNav = ({ navigation }: Props) => {
   const route = useRoute();
+  const user = useStore((state) => state.user);
+  const setMenuIsOpen = useStore((state) => state.setMenuIsOpen);
 
   const isActiveRoute = (routeName: string) => {
     return route.name === routeName;
+  };
+
+  const handleProfileNavigation = () => {
+    if (user) {
+      navigation.navigate("Profile");
+      setMenuIsOpen(false);
+    } else {
+      navigation.navigate("Login");
+      setMenuIsOpen(false);
+    }
   };
 
   return (
@@ -26,7 +39,7 @@ const BottomNav = ({ navigation }: Props) => {
           size={20}
         />
       </Pressable>
-      <Pressable onPress={() => navigation.navigate("Profile")}>
+      <Pressable onPress={handleProfileNavigation}>
         <Icon
           name="user-3-fill"
           color={isActiveRoute("Profile") ? Colors.secondary : Colors.lightGray}

@@ -17,11 +17,17 @@ type Props = {
 
 const SideMenu = ({ navigation }: Props) => {
   const user = useStore((state) => state.user);
+  const profile = useStore((state) => state.profile);
   const setUser = useStore((state) => state.setUser);
   const setMenuIsOpen = useStore((state) => state.setMenuIsOpen);
 
   const handleLoginNavigation = () => {
     navigation.navigate("Login");
+    setMenuIsOpen(false);
+  };
+
+  const handleProfileNavigation = () => {
+    navigation.navigate("Profile");
     setMenuIsOpen(false);
   };
 
@@ -70,17 +76,28 @@ const SideMenu = ({ navigation }: Props) => {
         {user && (
           <>
             <View style={styles.menuItem}>
-              <Image
-                style={{ width: 60, height: 60, borderRadius: 30 }}
-                source={require("../../assets/Images/Portrait.jpg")}
-              />
+              {!profile?.avatar_url ? (
+                <View style={styles.defaultImage}>
+                  <Text style={[mainStyles.boldFont, styles.defaultText]}>
+                    {profile?.username[0]}
+                  </Text>
+                </View>
+              ) : (
+                <Image
+                  style={styles.profileImg}
+                  source={{ uri: profile.avatar_url }}
+                />
+              )}
             </View>
-            <View style={styles.menuItem}>
+            <Pressable
+              style={styles.menuItem}
+              onPress={handleProfileNavigation}
+            >
               <Icon name="user-6-fill" color={Colors.white} size={24} />
               <Text style={[mainStyles.normalFont, styles.menuText]}>
-                {user?.user_metadata.username}
+                {profile?.username}
               </Text>
-            </View>
+            </Pressable>
             <Pressable onPress={handleLogout}>
               <View style={styles.menuItem}>
                 <Icon name="logout-box-fill" color={Colors.white} size={24} />
@@ -131,5 +148,22 @@ const styles = StyleSheet.create({
   },
   menuText: {
     color: Colors.white,
+  },
+  profileImg: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+  },
+  defaultImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: Colors.secondary,
+  },
+  defaultText: {
+    color: Colors.white,
+    fontSize: 32,
+    textAlign: "center",
+    lineHeight: 70,
   },
 });

@@ -2,24 +2,35 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import BottomNav from "../components/BottomNav";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
-import React from "react";
 import Icon from "react-native-remix-icon";
 import { Colors } from "../colors";
 import { mainStyles } from "../../App";
+import useStore from "../store/useStore";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
 };
 
 const Profile = ({ navigation }: Props) => {
+  const profile = useStore((state) => state.profile);
   return (
     <>
       <View style={styles.container}>
+        {/* Profile Image & Edit Button  */}
         <View style={styles.row}>
-          <Image
-            style={styles.profileImg}
-            source={require("../../assets/Images/Portrait.jpg")}
-          />
+          {!profile?.avatar_url ? (
+            <View style={styles.defaultImage}>
+              <Text style={[mainStyles.boldFont, styles.defaultText]}>
+                {profile?.username[0]}
+              </Text>
+            </View>
+          ) : (
+            <Image
+              style={styles.profileImg}
+              source={{ uri: profile.avatar_url }}
+            />
+          )}
+
           <Pressable
             style={styles.iconTextContainer}
             onPress={() => navigation.navigate("EditProfile")}
@@ -28,37 +39,48 @@ const Profile = ({ navigation }: Props) => {
             <Text style={[mainStyles.normalFont]}>Edit Profile</Text>
           </Pressable>
         </View>
+        {/* Profile Name */}
         <Text style={[mainStyles.boldFont, styles.profileName]}>
-          Danial Thomas
+          {profile?.username}
         </Text>
+        {/* Followers & Following */}
         <View style={styles.row}>
           <Pressable style={styles.iconTextContainer}>
             <Icon name="user-heart-fill" size={20} color={Colors.primary} />
-            <Text style={[mainStyles.normalFont]}>298 Following</Text>
+            <Text style={[mainStyles.normalFont]}>
+              {profile?.following.length} following
+            </Text>
           </Pressable>
           <Pressable style={styles.iconTextContainer}>
             <Icon name="user-follow-fill" size={20} color={Colors.primary} />
-            <Text style={[mainStyles.normalFont]}>173 Followers</Text>
+            <Text style={[mainStyles.normalFont]}>
+              {profile?.followers.length} Followers
+            </Text>
           </Pressable>
         </View>
         <View style={styles.line}></View>
-        <View style={styles.sectionContainer}>
-          <Text style={[mainStyles.boldFont]}>Bio</Text>
-          <Text style={[mainStyles.normalFont]}>
-            In the bustling world of news reporting, there are those who merely
-            follow headlines, and then there are individuals like me, whose
-            fervor for environmental journalism is truly remarkable
-          </Text>
-        </View>
-        <View style={styles.line}></View>
+        {/* Bio */}
+        {profile?.bio ? (
+          <>
+            <View style={styles.sectionContainer}>
+              <Text style={[mainStyles.boldFont]}>Bio</Text>
+              <Text style={[mainStyles.normalFont]}>{profile?.bio}</Text>
+            </View>
+            <View style={styles.line}></View>
+          </>
+        ) : null}
+        {/* More */}
         <View style={styles.sectionContainer}>
           <Text style={[mainStyles.boldFont]}>More</Text>
           <Pressable style={styles.iconTextContainer}>
             <Icon name="bookmark-fill" size={20} color={Colors.primary} />
-            <Text style={[mainStyles.normalFont]}>57 Saved Articles</Text>
+            <Text style={[mainStyles.normalFont]}>
+              {profile?.saved_articles.length} Saved Articles
+            </Text>
           </Pressable>
         </View>
         <View style={styles.line}></View>
+        {/* Social Media */}
         <View style={styles.sectionContainer}>
           <Text style={[mainStyles.boldFont]}>Social Media</Text>
           <View style={styles.socialContainer}>
@@ -118,5 +140,17 @@ const styles = StyleSheet.create({
   socialContainer: {
     flexDirection: "row",
     gap: 30,
+  },
+  defaultImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: Colors.secondary,
+  },
+  defaultText: {
+    color: Colors.white,
+    fontSize: 32,
+    textAlign: "center",
+    lineHeight: 70,
   },
 });

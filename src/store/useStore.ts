@@ -1,6 +1,7 @@
 import { User } from "@supabase/supabase-js";
 import { create } from "zustand";
 import { supabase } from "../services/supabase";
+import { ProfileType } from "../types";
 
 interface Store {
   user: User | null;
@@ -8,6 +9,8 @@ interface Store {
   setUser: (user: User | null) => void;
   menuIsOpen: boolean;
   setMenuIsOpen: (menuIsOpen: boolean) => void;
+  getUserProfile: (userId: string) => Promise<ProfileType | null>;
+  profile: ProfileType | null;
 }
 
 const useStore = create<Store>((set) => ({
@@ -34,6 +37,25 @@ const useStore = create<Store>((set) => ({
   setMenuIsOpen: (menuIsOpen: boolean) => {
     set({ menuIsOpen });
   },
+  getUserProfile: async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", userId);
+      if (error) {
+        console.log(error.message);
+        return null;
+      }
+      const profileData = data?.[0];
+      set({ profile: profileData });
+      return profileData;
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+      return null;
+    }
+  },
+  profile: null,
 }));
 
 export default useStore;

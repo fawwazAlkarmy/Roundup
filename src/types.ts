@@ -38,6 +38,18 @@ export type profileData = {
   instagramUrl?: string;
 };
 
+export type ProfileType = {
+  id: string;
+  username: string;
+  email: string;
+  bio: string;
+  created_at: string;
+  saved_articles: string[];
+  followers: string[];
+  following: string[];
+  avatar_url: string;
+};
+
 export type ProfileField = {
   name: keyof profileData;
   label: string;

@@ -8,7 +8,7 @@ import StackNavigator from "./src/navigation/StackNavigator";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 import { supabase } from "./src/services/supabase";
-import useGlobalStore from "./src/store/useStore";
+import useStore from "./src/store/useStore";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +20,9 @@ export default function App() {
     Orbitron: require("./assets/fonts/Orbitron.ttf"),
   });
 
-  const fetchUser = useGlobalStore((state) => state.fetchUser);
+  const fetchUser = useStore((state) => state.fetchUser);
+  const user = useStore((state) => state.user);
+  const getUserProfile = useStore((state) => state.getUserProfile);
 
   const onLayoutRootView = useCallback(async () => {
     await SplashScreen.hideAsync();
@@ -32,6 +34,14 @@ export default function App() {
       fetchUser();
     });
   }, [onLayoutRootView]);
+
+  const userId = user?.id || "";
+
+  useEffect(() => {
+    if (userId) {
+      getUserProfile(userId);
+    }
+  }, [userId]);
 
   if (!fontsLoaded || fontError) {
     return null;
