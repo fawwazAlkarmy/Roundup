@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { Control, Controller } from "react-hook-form";
 import EditField from "../components/EditField";
 import { ProfileField, profileData } from "../types";
+import useStore from "../store/useStore";
 
 type Props = {
   fields: ProfileField[];
@@ -10,6 +11,14 @@ type Props = {
 };
 
 const FieldList = ({ fields, control }: Props) => {
+  const profile = useStore((state) => state.profile);
+  const data: profileData = {
+    name: profile?.username ?? "",
+    email: profile?.email ?? "",
+    bio: profile?.bio,
+    facebookUrl: profile?.facebook_url,
+    instagramUrl: profile?.instagram_url,
+  };
   return (
     <View>
       {fields.map(({ name, label }: ProfileField) => (
@@ -17,7 +26,7 @@ const FieldList = ({ fields, control }: Props) => {
           key={name}
           name={name}
           control={control}
-          defaultValue=""
+          defaultValue={data[name]}
           render={({ field: { onChange, value } }) => (
             <EditField label={label} value={value} onChange={onChange} />
           )}

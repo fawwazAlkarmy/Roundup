@@ -14,6 +14,9 @@ import Icon from "react-native-remix-icon";
 import { mainStyles } from "../../App";
 import { useForm } from "react-hook-form";
 import EditFieldList from "../components/EditFieldList";
+import useStore from "../store/useStore";
+import { supabase } from "../services/supabase";
+import Toast from "react-native-toast-message";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "EditProfile">;
@@ -28,7 +31,52 @@ const fields: ProfileField[] = [
 ];
 
 const EditProfile = ({ navigation }: Props) => {
-  const { control, handleSubmit, reset } = useForm<profileData>();
+  const { control, handleSubmit } = useForm<profileData>();
+  const profile = useStore((state) => state.profile);
+
+  const onSubmit = async ({
+    name,
+    email,
+    bio,
+    facebookUrl,
+    instagramUrl,
+  }: profileData) => {
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          username: name,
+          email: email,
+          bio: bio,
+          facebook_url: facebookUrl,
+          instagram_url: instagramUrl,
+        })
+        .eq("id", profile?.id);
+      if (error) {
+        Toast.show({
+          type: "error",
+          text1: `${error.message} 😕 `,
+          position: "top",
+          topOffset: 50,
+          autoHide: true,
+          visibilityTime: 3000,
+        });
+      }
+      Toast.show({
+        type: "success",
+        text1: "Profile Updated! 🎉",
+        position: "top",
+        topOffset: 50,
+        autoHide: true,
+        visibilityTime: 3000,
+      });
+      setTimeout(() => {
+        navigation.navigate("Profile");
+      }, 3000);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <ScrollView>
@@ -37,19 +85,25 @@ const EditProfile = ({ navigation }: Props) => {
           <AntDesign name="arrowleft" size={26} color={Colors.primary} />
         </Pressable>
         <View style={styles.imgContainer}>
-          <Image
-            style={styles.img}
-            source={require("../../assets/Images/Portrait.jpg")}
-          />
+          {!profile?.avatar_url ? (
+            <View style={styles.defaultImage}>
+              <Text style={[mainStyles.boldFont, styles.defaultText]}>
+                {profile?.username[0]}
+              </Text>
+            </View>
+          ) : (
+            <Image style={styles.img} source={{ uri: profile.avatar_url }} />
+          )}
+
           <Icon
             style={styles.icon}
             name="edit-circle-fill"
             size={22}
-            color={Colors.secondary}
+            color={Colors.primary}
           />
         </View>
         <EditFieldList fields={fields} control={control} />
-        <Pressable style={styles.btn}>
+        <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
           <Text style={[mainStyles.boldFont, styles.btnText]}>Save</Text>
         </Pressable>
       </View>
@@ -97,5 +151,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textTransform: "uppercase",
     letterSpacing: 1,
+  },
+  defaultImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: Colors.secondary,
+  },
+  defaultText: {
+    color: Colors.white,
+    fontSize: 32,
+    textAlign: "center",
+    lineHeight: 70,
   },
 });

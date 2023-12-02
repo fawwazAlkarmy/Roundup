@@ -23,6 +23,7 @@ export default function App() {
   const fetchUser = useStore((state) => state.fetchUser);
   const user = useStore((state) => state.user);
   const getUserProfile = useStore((state) => state.getUserProfile);
+  const profile = useStore((state) => state.profile);
 
   const onLayoutRootView = useCallback(async () => {
     await SplashScreen.hideAsync();
@@ -41,7 +42,7 @@ export default function App() {
     if (userId) {
       getUserProfile(userId);
     }
-  }, [userId]);
+  }, [userId, profile]);
 
   if (!fontsLoaded || fontError) {
     return null;

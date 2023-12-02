@@ -48,6 +48,8 @@ export type ProfileType = {
   followers: string[];
   following: string[];
   avatar_url: string;
+  facebook_url: string;
+  instagram_url: string;
 };
 
 export type ProfileField = {
