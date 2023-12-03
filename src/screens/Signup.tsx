@@ -19,7 +19,7 @@ const Signup = ({ navigation }: Props) => {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>();
 
   const { signupWithEmail } = useSignup({ navigation });
@@ -123,7 +123,11 @@ const Signup = ({ navigation }: Props) => {
         </View>
       )}
 
-      <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
+      <Pressable
+        style={styles.btn}
+        onPress={handleSubmit(onSubmit)}
+        disabled={isSubmitting}
+      >
         <Text style={[mainStyles.boldFont, styles.btnText]}>Signup</Text>
       </Pressable>
       <View style={styles.orContainer}>

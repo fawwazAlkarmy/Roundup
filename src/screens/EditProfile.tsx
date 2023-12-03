@@ -17,6 +17,7 @@ import EditFieldList from "../components/EditFieldList";
 import useStore from "../store/useStore";
 import { supabase } from "../services/supabase";
 import Toast from "react-native-toast-message";
+import Avatar from "../components/Avatar";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "EditProfile">;
@@ -33,6 +34,7 @@ const fields: ProfileField[] = [
 const EditProfile = ({ navigation }: Props) => {
   const { control, handleSubmit } = useForm<profileData>();
   const profile = useStore((state) => state.profile);
+  const image = useStore((state) => state.image);
 
   const onSubmit = async ({
     name,
@@ -50,6 +52,7 @@ const EditProfile = ({ navigation }: Props) => {
           bio: bio,
           facebook_url: facebookUrl,
           instagram_url: instagramUrl,
+          avatar_url: image,
         })
         .eq("id", profile?.id);
       if (error) {
@@ -84,24 +87,7 @@ const EditProfile = ({ navigation }: Props) => {
         <Pressable onPress={() => navigation.navigate("Profile")}>
           <AntDesign name="arrowleft" size={26} color={Colors.primary} />
         </Pressable>
-        <View style={styles.imgContainer}>
-          {!profile?.avatar_url ? (
-            <View style={styles.defaultImage}>
-              <Text style={[mainStyles.boldFont, styles.defaultText]}>
-                {profile?.username[0]}
-              </Text>
-            </View>
-          ) : (
-            <Image style={styles.img} source={{ uri: profile.avatar_url }} />
-          )}
-
-          <Icon
-            style={styles.icon}
-            name="edit-circle-fill"
-            size={22}
-            color={Colors.primary}
-          />
-        </View>
+        <Avatar />
         <EditFieldList fields={fields} control={control} />
         <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
           <Text style={[mainStyles.boldFont, styles.btnText]}>Save</Text>
@@ -122,22 +108,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  imgContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 20,
-  },
-  img: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-  },
-  icon: {
-    position: "absolute",
-    bottom: 0,
-    right: 100,
-  },
+
   btn: {
     backgroundColor: Colors.primary,
     padding: 10,
@@ -151,17 +122,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textTransform: "uppercase",
     letterSpacing: 1,
-  },
-  defaultImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: Colors.secondary,
-  },
-  defaultText: {
-    color: Colors.white,
-    fontSize: 32,
-    textAlign: "center",
-    lineHeight: 70,
   },
 });

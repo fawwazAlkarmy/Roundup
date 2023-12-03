@@ -1,35 +1,34 @@
-import { User } from "@supabase/supabase-js";
+import { Session, User } from "@supabase/supabase-js";
 import { create } from "zustand";
 import { supabase } from "../services/supabase";
 import { ProfileType } from "../types";
 
 interface Store {
   user: User | null;
-  fetchUser: () => Promise<User | null>;
+  session: Session | null;
+  setSession: (session: Session | null) => void;
+  initialized: boolean;
+  setInitialized: (initialized: boolean) => void;
   setUser: (user: User | null) => void;
   menuIsOpen: boolean;
   setMenuIsOpen: (menuIsOpen: boolean) => void;
   getUserProfile: (userId: string) => Promise<ProfileType | null>;
   profile: ProfileType | null;
+  image: string | null;
+  setImage: (image: string | null) => void;
 }
 
 const useStore = create<Store>((set) => ({
   user: null,
-  fetchUser: async () => {
-    try {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) {
-        console.log(error.message);
-        return null;
-      }
-      const userData = data?.user || null;
-      set({ user: userData });
-      return userData;
-    } catch (err) {
-      console.error("Error fetching user:", err);
-      return null;
-    }
+  session: null,
+  setSession: (session: Session | null) => {
+    set({ session });
   },
+  initialized: false,
+  setInitialized: (initialized: boolean) => {
+    set({ initialized });
+  },
+
   setUser: (user: User | null) => {
     set({ user });
   },
@@ -56,6 +55,10 @@ const useStore = create<Store>((set) => ({
     }
   },
   profile: null,
+  image: null,
+  setImage: (image: string | null) => {
+    set({ image });
+  },
 }));
 
 export default useStore;

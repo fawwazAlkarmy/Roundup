@@ -15,7 +15,12 @@ type Props = {
 };
 
 const Login = ({ navigation }: Props) => {
-  const { control, handleSubmit, reset } = useForm<FormData>();
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = useForm<FormData>();
 
   const { signinWithEmail } = useLogin({ navigation });
 
@@ -72,7 +77,11 @@ const Login = ({ navigation }: Props) => {
       <Text style={[mainStyles.boldFont, styles.forgotPassword]}>
         Forgot Password ?
       </Text>
-      <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
+      <Pressable
+        style={styles.btn}
+        onPress={handleSubmit(onSubmit)}
+        disabled={isSubmitting}
+      >
         <Text style={[mainStyles.boldFont, styles.btnText]}>Login</Text>
       </Pressable>
       <View style={styles.orContainer}>

@@ -20,10 +20,12 @@ export default function App() {
     Orbitron: require("./assets/fonts/Orbitron.ttf"),
   });
 
-  const fetchUser = useStore((state) => state.fetchUser);
   const user = useStore((state) => state.user);
   const getUserProfile = useStore((state) => state.getUserProfile);
   const profile = useStore((state) => state.profile);
+  const setSession = useStore((state) => state.setSession);
+  const setUser = useStore((state) => state.setUser);
+  const setInitialized = useStore((state) => state.setInitialized);
 
   const onLayoutRootView = useCallback(async () => {
     await SplashScreen.hideAsync();
@@ -31,9 +33,14 @@ export default function App() {
 
   useEffect(() => {
     onLayoutRootView();
-    supabase.auth.onAuthStateChange(() => {
-      fetchUser();
+    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setSession(session);
+      setUser(session ? session.user : null);
+      setInitialized(true);
     });
+    return () => {
+      data.subscription.unsubscribe();
+    };
   }, [onLayoutRootView]);
 
   const userId = user?.id || "";
