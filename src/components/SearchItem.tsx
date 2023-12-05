@@ -4,7 +4,7 @@ import { mainStyles } from "../../App";
 import dayjs from "dayjs";
 import { Colors } from "../colors";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import useRecommendation from "../hooks/useRecommendation";
+import usePostTitle from "../hooks/usePostTitle";
 
 type Props = {
   article: Article;
@@ -13,7 +13,7 @@ type Props = {
 
 const SearchItem = ({ article, navigation }: Props) => {
   const formattedDate = dayjs(article.published_at).format("MMMM D");
-  const { postTitle } = useRecommendation(article.title);
+  const { postTitle } = usePostTitle(article.title);
   const handlePress = () => {
     postTitle.mutate();
     navigation.navigate("Article", { article });
