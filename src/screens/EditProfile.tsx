@@ -32,7 +32,11 @@ const fields: ProfileField[] = [
 ];
 
 const EditProfile = ({ navigation }: Props) => {
-  const { control, handleSubmit } = useForm<profileData>();
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<profileData>();
   const profile = useStore((state) => state.profile);
   const image = useStore((state) => state.image);
 
@@ -89,7 +93,11 @@ const EditProfile = ({ navigation }: Props) => {
         </Pressable>
         <Avatar />
         <EditFieldList fields={fields} control={control} />
-        <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
+        <Pressable
+          style={styles.btn}
+          onPress={handleSubmit(onSubmit)}
+          disabled={isSubmitting}
+        >
           <Text style={[mainStyles.boldFont, styles.btnText]}>Save</Text>
         </Pressable>
       </View>

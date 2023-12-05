@@ -84,7 +84,7 @@ const ArticleDetails = ({ navigation }: Props) => {
           </View>
         </View>
       </ScrollView>
-      <ArticleDetailsMenu toggleComments={toggleComments} />
+      <ArticleDetailsMenu toggleComments={toggleComments} article={article} />
     </>
   );
 };

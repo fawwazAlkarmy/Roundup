@@ -16,6 +16,8 @@ interface Store {
   profile: ProfileType | null;
   image: string | null;
   setImage: (image: string | null) => void;
+  isBookmarked: boolean;
+  setIsBookmarked: (isBookmarked: boolean) => void;
 }
 
 const useStore = create<Store>((set) => ({
@@ -58,6 +60,10 @@ const useStore = create<Store>((set) => ({
   image: null,
   setImage: (image: string | null) => {
     set({ image });
+  },
+  isBookmarked: false,
+  setIsBookmarked: (isBookmarked: boolean) => {
+    set({ isBookmarked });
   },
 }));
 
