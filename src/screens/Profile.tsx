@@ -82,7 +82,11 @@ const Profile = ({ navigation }: Props) => {
         {/* More */}
         <View style={styles.sectionContainer}>
           <Text style={[mainStyles.boldFont]}>More</Text>
-          <Pressable style={styles.iconTextContainer}>
+          <Pressable
+            style={styles.iconTextContainer}
+            onPress={() => navigation.navigate("SavedArticles")}
+            disabled={profile?.saved_articles.length === 0}
+          >
             <Icon name="bookmark-fill" size={20} color={Colors.primary} />
             <Text style={[mainStyles.normalFont]}>
               {profile?.saved_articles.length} Saved Articles

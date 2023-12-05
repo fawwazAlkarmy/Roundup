@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
-
 import Onboarding from "../screens/Onboarding";
 import Walkthrough from "../screens/Walkthrough";
 import Home from "../screens/Home";
@@ -11,6 +10,7 @@ import ArticleDetails from "../screens/ArticleDetails";
 import AiPicks from "../screens/AiPicks";
 import Profile from "../screens/Profile";
 import EditProfile from "../screens/EditProfile";
+import SavedArticles from "../screens/SavedArticles";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -65,6 +65,11 @@ const StackNavigator = () => {
       <Stack.Screen
         name="EditProfile"
         component={EditProfile}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SavedArticles"
+        component={SavedArticles}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

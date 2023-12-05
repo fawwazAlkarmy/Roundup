@@ -2,19 +2,13 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { Colors } from "../colors";
 import Icon from "react-native-remix-icon";
 import { supabase } from "../services/supabase";
-import { Article } from "../types";
+import { Article, SavedArticle } from "../types";
 import useStore from "../store/useStore";
+import Toast from "react-native-toast-message";
 
 type Props = {
   toggleComments: () => void;
   article: Article;
-};
-
-type SavedArticle = {
-  article_url: string;
-  article_title: string;
-  article_source: string;
-  article_date: string;
 };
 
 const ArticleDetailsMenu = ({ toggleComments, article }: Props) => {
@@ -47,6 +41,7 @@ const ArticleDetailsMenu = ({ toggleComments, article }: Props) => {
             article_title: article.title,
             article_source: article.source,
             article_date: article.published_at,
+            article_image: article.image,
           },
         ];
 
@@ -55,6 +50,13 @@ const ArticleDetailsMenu = ({ toggleComments, article }: Props) => {
           .update({ saved_articles: updatedSavedArticles })
           .eq("id", user?.id);
         setIsBookmarked(true);
+        Toast.show({
+          type: "success",
+          text1: "Article added to bookmarked ✅ ",
+          position: "top",
+          visibilityTime: 3000,
+          topOffset: 50,
+        });
       } else {
         // remove from bookmarked
         setIsBookmarked(false);

@@ -9,6 +9,7 @@ export type RootStackParamList = {
   AiPicks: undefined;
   Profile: undefined;
   EditProfile: undefined;
+  SavedArticles: undefined;
 };
 
 export type Article = {
@@ -38,13 +39,21 @@ export type profileData = {
   instagramUrl?: string;
 };
 
+export type SavedArticle = {
+  article_url: string;
+  article_title: string;
+  article_source: string;
+  article_date: string;
+  article_image?: string;
+};
+
 export type ProfileType = {
   id: string;
   username: string;
   email: string;
   bio: string;
   created_at: string;
-  saved_articles: string[];
+  saved_articles: SavedArticle[];
   followers: string[];
   following: string[];
   avatar_url: string;
