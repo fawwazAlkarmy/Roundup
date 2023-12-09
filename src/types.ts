@@ -11,6 +11,7 @@ export type RootStackParamList = {
   EditProfile: undefined;
   SavedArticles: undefined;
   Community: undefined;
+  ProfileInfo: { profile: ProfileType };
 };
 
 export type Article = {

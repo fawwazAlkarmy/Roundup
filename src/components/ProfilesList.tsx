@@ -2,10 +2,15 @@ import { StyleSheet, Text, View, FlatList } from "react-native";
 import { supabase } from "../services/supabase";
 import useStore from "../store/useStore";
 import { useEffect } from "react";
-import { ProfileType } from "../types";
+import { ProfileType, RootStackParamList } from "../types";
 import ProfileItem from "./ProfileItem";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const ProfilesList = () => {
+type Props = {
+  navigation: NativeStackNavigationProp<RootStackParamList, "Community">;
+};
+
+const ProfilesList = ({ navigation }: Props) => {
   const setProfiles = useStore((state) => state.setProfiles);
   const profiles = useStore((state) => state.profiles);
   const user = useStore((state) => state.user);
@@ -31,7 +36,7 @@ const ProfilesList = () => {
   }, []);
 
   const renderData = (item: ProfileType) => {
-    return <ProfileItem profile={item} />;
+    return <ProfileItem profile={item} navigation={navigation} />;
   };
 
   return (

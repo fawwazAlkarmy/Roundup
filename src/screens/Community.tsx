@@ -25,7 +25,7 @@ const Community = ({ navigation }: Props) => {
       <Text style={[mainStyles.boldFont, styles.connectCircle]}>
         Connect Circle
       </Text>
-      <ProfilesList />
+      <ProfilesList navigation={navigation} />
     </View>
   );
 };

@@ -12,6 +12,7 @@ import Profile from "../screens/Profile";
 import EditProfile from "../screens/EditProfile";
 import SavedArticles from "../screens/SavedArticles";
 import Community from "../screens/Community";
+import ProfileInfo from "../screens/ProfileInfo";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -76,6 +77,11 @@ const StackNavigator = () => {
       <Stack.Screen
         name="Community"
         component={Community}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ProfileInfo"
+        component={ProfileInfo}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

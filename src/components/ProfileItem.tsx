@@ -1,16 +1,22 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { ProfileType } from "../types";
+import { ProfileType, RootStackParamList } from "../types";
 import { mainStyles } from "../../App";
 import { Colors } from "../colors";
 import Icon from "react-native-remix-icon";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type Props = {
   profile: ProfileType;
+  navigation: NativeStackNavigationProp<RootStackParamList, "Community">;
 };
 
-const ProfileItem = ({ profile }: Props) => {
+const ProfileItem = ({ profile, navigation }: Props) => {
+  const handleNavigation = () => {
+    navigation.navigate("ProfileInfo", { profile });
+  };
+
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={handleNavigation}>
       <View style={styles.itemContainer}>
         {profile.avatar_url ? (
           <Image source={{ uri: profile.avatar_url }} style={styles.img} />
@@ -26,7 +32,7 @@ const ProfileItem = ({ profile }: Props) => {
       <Pressable style={styles.iconContainer}>
         <Icon name="add-fill" color="#fff" size={20} />
       </Pressable>
-    </View>
+    </Pressable>
   );
 };
 export default ProfileItem;
