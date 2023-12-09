@@ -30,6 +30,16 @@ const BottomNav = ({ navigation }: Props) => {
     }
   };
 
+  const handleCommunityNavigation = () => {
+    if (user) {
+      navigation.navigate("Community");
+      setMenuIsOpen(false);
+    } else {
+      navigation.navigate("Login");
+      setMenuIsOpen(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Pressable onPress={() => navigation.navigate("Home")}>
@@ -46,7 +56,9 @@ const BottomNav = ({ navigation }: Props) => {
           size={20}
         />
       </Pressable>
-      <Icon name="group-2-fill" color={Colors.lightGray} size={20} />
+      <Pressable onPress={handleCommunityNavigation}>
+        <Icon name="group-2-fill" color={Colors.lightGray} size={20} />
+      </Pressable>
     </View>
   );
 };

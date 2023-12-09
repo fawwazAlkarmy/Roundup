@@ -96,9 +96,9 @@ const Profile = ({ navigation }: Props) => {
         <View style={styles.line}></View>
         {/* Social Media */}
         <View style={styles.sectionContainer}>
-          {profile?.facebook_url || profile?.instagram_url ? null : (
+          {profile?.facebook_url || profile?.instagram_url ? (
             <Text style={[mainStyles.boldFont]}>Social Media</Text>
-          )}
+          ) : null}
           <View style={styles.socialContainer}>
             {profile?.facebook_url && (
               <Pressable

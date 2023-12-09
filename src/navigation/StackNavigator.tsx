@@ -11,6 +11,7 @@ import AiPicks from "../screens/AiPicks";
 import Profile from "../screens/Profile";
 import EditProfile from "../screens/EditProfile";
 import SavedArticles from "../screens/SavedArticles";
+import Community from "../screens/Community";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -70,6 +71,11 @@ const StackNavigator = () => {
       <Stack.Screen
         name="SavedArticles"
         component={SavedArticles}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Community"
+        component={Community}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -10,6 +10,7 @@ export type RootStackParamList = {
   Profile: undefined;
   EditProfile: undefined;
   SavedArticles: undefined;
+  Community: undefined;
 };
 
 export type Article = {
