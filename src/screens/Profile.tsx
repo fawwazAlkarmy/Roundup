@@ -96,24 +96,30 @@ const Profile = ({ navigation }: Props) => {
         <View style={styles.line}></View>
         {/* Social Media */}
         <View style={styles.sectionContainer}>
-          <Text style={[mainStyles.boldFont]}>Social Media</Text>
+          {profile?.facebook_url || profile?.instagram_url ? null : (
+            <Text style={[mainStyles.boldFont]}>Social Media</Text>
+          )}
           <View style={styles.socialContainer}>
-            <Pressable
-              style={styles.iconTextContainer}
-              onPress={() => openLink(profile?.facebook_url || "")}
-            >
-              <Icon
-                name="facebook-circle-fill"
-                size={20}
-                color={Colors.primary}
-              />
-            </Pressable>
-            <Pressable
-              style={styles.iconTextContainer}
-              onPress={() => openLink(profile?.instagram_url || "")}
-            >
-              <Icon name="instagram-fill" size={20} color={Colors.primary} />
-            </Pressable>
+            {profile?.facebook_url && (
+              <Pressable
+                style={styles.iconTextContainer}
+                onPress={() => openLink(profile?.facebook_url || "")}
+              >
+                <Icon
+                  name="facebook-circle-fill"
+                  size={20}
+                  color={Colors.primary}
+                />
+              </Pressable>
+            )}
+            {profile?.instagram_url && (
+              <Pressable
+                style={styles.iconTextContainer}
+                onPress={() => openLink(profile?.instagram_url || "")}
+              >
+                <Icon name="instagram-fill" size={20} color={Colors.primary} />
+              </Pressable>
+            )}
           </View>
         </View>
       </View>

@@ -28,6 +28,7 @@ const Avatar = () => {
     if (data) {
       setFiles(data);
     }
+    setImage(null);
   };
 
   const onSelectImage = async () => {
