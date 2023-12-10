@@ -13,6 +13,7 @@ import Icon from "react-native-remix-icon";
 import { useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useStore from "../store/useStore";
+import { supabase } from "../services/supabase";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "ProfileInfo">;
@@ -22,10 +23,67 @@ const ProfileInfo = ({ navigation }: Props) => {
   const route = useRoute();
   const { profile } = route.params as { profile: ProfileType };
   const activeProfile = useStore((state) => state.profile);
-  const isFollowed = activeProfile?.following.includes(profile.id);
+  const isFollowed = useStore((state) =>
+    state.profile?.following.includes(profile.id)
+  );
+  const setIsFollowed = useStore((state) => state.setIsFollowed);
   const openLink = (url: string) => {
     Linking.openURL(url);
   };
+
+  const handleFollow = async () => {
+    try {
+      const userFollowingList = activeProfile?.following || [];
+      const userProfile = await supabase
+        .from("profiles")
+        .select("followers")
+        .eq("id", profile.id)
+        .single();
+
+      const userFollowersList = userProfile.data?.followers || [];
+
+      if (!isFollowed) {
+        // If the user is being followed
+        const updatedFollowingList = [...userFollowingList, profile.id];
+        const updatedFollowersList = [...userFollowersList, activeProfile?.id];
+
+        await supabase
+          .from("profiles")
+          .update({ following: updatedFollowingList })
+          .eq("id", activeProfile?.id);
+
+        await supabase
+          .from("profiles")
+          .update({ followers: updatedFollowersList })
+          .eq("id", profile.id);
+
+        setIsFollowed(true);
+      } else {
+        // If the user is being un-followed
+        const updatedFollowingList = userFollowingList.filter(
+          (id) => id !== profile.id
+        );
+        const updatedFollowersList = userFollowersList.filter(
+          (id: string) => id !== activeProfile?.id
+        );
+
+        await supabase
+          .from("profiles")
+          .update({ following: updatedFollowingList })
+          .eq("id", activeProfile?.id);
+
+        await supabase
+          .from("profiles")
+          .update({ followers: updatedFollowersList })
+          .eq("id", profile.id);
+
+        setIsFollowed(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* Profile Image & Follow Button  */}
@@ -43,7 +101,7 @@ const ProfileInfo = ({ navigation }: Props) => {
           />
         )}
 
-        <Pressable style={styles.btnContainer}>
+        <Pressable style={styles.btnContainer} onPress={handleFollow}>
           {isFollowed ? (
             <Text style={[mainStyles.normalFont, styles.btnText]}>
               UnFollow

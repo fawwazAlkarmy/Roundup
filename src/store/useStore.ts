@@ -20,6 +20,8 @@ interface Store {
   setIsBookmarked: (isBookmarked: boolean) => void;
   profiles: ProfileType[] | null;
   setProfiles: (profiles: ProfileType[] | null) => void;
+  isFollowed: boolean;
+  setIsFollowed: (isFollowed: boolean) => void;
 }
 
 const useStore = create<Store>((set) => ({
@@ -70,6 +72,10 @@ const useStore = create<Store>((set) => ({
   profiles: null,
   setProfiles: (profiles: ProfileType[] | null) => {
     set({ profiles });
+  },
+  isFollowed: false,
+  setIsFollowed: (isFollowed: boolean) => {
+    set({ isFollowed });
   },
 }));
 

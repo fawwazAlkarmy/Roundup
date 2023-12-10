@@ -55,13 +55,19 @@ const Profile = ({ navigation }: Props) => {
         </Text>
         {/* Followers & Following */}
         <View style={styles.row}>
-          <Pressable style={styles.iconTextContainer}>
+          <Pressable
+            style={styles.iconTextContainer}
+            onPress={() => navigation.navigate("Following")}
+          >
             <Icon name="user-heart-fill" size={20} color={Colors.primary} />
             <Text style={[mainStyles.normalFont]}>
               {profile?.following.length} following
             </Text>
           </Pressable>
-          <Pressable style={styles.iconTextContainer}>
+          <Pressable
+            style={styles.iconTextContainer}
+            onPress={() => navigation.navigate("Followers")}
+          >
             <Icon name="user-follow-fill" size={20} color={Colors.primary} />
             <Text style={[mainStyles.normalFont]}>
               {profile?.followers.length} Followers

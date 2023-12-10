@@ -13,6 +13,8 @@ import EditProfile from "../screens/EditProfile";
 import SavedArticles from "../screens/SavedArticles";
 import Community from "../screens/Community";
 import ProfileInfo from "../screens/ProfileInfo";
+import Followers from "../screens/Followers";
+import Following from "../screens/Following";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -82,6 +84,16 @@ const StackNavigator = () => {
       <Stack.Screen
         name="ProfileInfo"
         component={ProfileInfo}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Followers"
+        component={Followers}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Following"
+        component={Following}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
