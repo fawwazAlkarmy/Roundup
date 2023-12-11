@@ -33,7 +33,7 @@ const ProfilesList = ({ navigation }: Props) => {
 
   useEffect(() => {
     getProfiles();
-  }, []);
+  }, [profiles]);
 
   const renderData = (item: ProfileType) => {
     return <ProfileItem profile={item} navigation={navigation} />;
