@@ -136,10 +136,10 @@ const Signup = ({ navigation }: Props) => {
         <View style={styles.line}></View>
       </View>
       <View style={styles.socialContainer}>
-        <View style={styles.socialItem}>
+        <Pressable style={styles.socialItem}>
           <Icon name="google-fill" size={24} color={Colors.primary} />
           <Text style={[mainStyles.boldFont]}>Google</Text>
-        </View>
+        </Pressable>
         <View style={styles.socialItem}>
           <Icon name="facebook-circle-fill" size={24} color={Colors.primary} />
           <Text style={[mainStyles.boldFont]}>Facebook</Text>

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.18.2",
+    "@react-native-google-signin/google-signin": "^11.0.0",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@supabase/supabase-js": "^2.38.4",
@@ -19,8 +20,10 @@
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
     "expo": "~49.0.13",
+    "expo-file-system": "~15.4.5",
     "expo-font": "~11.4.0",
     "expo-image-picker": "~14.3.2",
+    "expo-secure-store": "~12.3.1",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "lottie-react-native": "5.1.6",
@@ -35,9 +38,7 @@
     "react-native-toast-message": "^2.1.7",
     "react-native-url-polyfill": "^2.0.0",
     "uuidv4": "^6.2.13",
-    "zustand": "^4.4.7",
-    "expo-file-system": "~15.4.5",
-    "expo-secure-store": "~12.3.1"
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
