@@ -3,7 +3,9 @@ import axios from "axios";
 import { AiPick } from "../types";
 
 const getRecommendation = async () => {
-  const response = await axios.get("http://10.0.2.2:5000/recommend");
+  const response = await axios.get(
+    "https://yak-select-morally.ngrok-free.app/recommend"
+  );
   return response.data.recommended_articles;
 };
 
