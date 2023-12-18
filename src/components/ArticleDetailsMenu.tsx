@@ -94,7 +94,7 @@ const ArticleDetailsMenu = ({ toggleComments, article }: Props) => {
           size={24}
         />
       </Pressable>
-      <Pressable onPress={toggleComments} disabled={true}>
+      <Pressable onPress={toggleComments}>
         <Icon name="message-3-line" color={Colors.lightGray} size={24} />
       </Pressable>
     </View>

@@ -1,19 +1,80 @@
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { mainStyles } from "../../App";
 import { Colors } from "../colors";
+import { supabase } from "../services/supabase";
+import { Controller, useForm } from "react-hook-form";
+import { Article, CommentData } from "../types";
+import useStore from "../store/useStore";
+import Toast from "react-native-toast-message";
 
-const CommentInputField = () => {
+type Props = {
+  article: Article;
+};
+
+const CommentInputField = ({ article }: Props) => {
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { isValid },
+  } = useForm<CommentData>();
+  const user = useStore((state) => state.user);
+  const onSubmit = async (data: CommentData) => {
+    try {
+      if (user) {
+        const { error } = await supabase.from("comments").insert({
+          user_id: user?.id,
+          comment_text: data.text,
+          created_at: new Date(),
+          article_url: article.url,
+        });
+        reset();
+        if (error) {
+          console.log(error.message);
+          return;
+        }
+      }
+    } catch (err) {
+      console.error("Error posting comment:", err);
+      return;
+    }
+    if (!user) {
+      Toast.show({
+        type: "error",
+        text1: "Please login or signup to post a comment",
+        visibilityTime: 3000,
+        position: "top",
+        autoHide: true,
+        topOffset: 50,
+      });
+    }
+  };
+
   return (
     <View style={styles.inputContainer}>
-      <TextInput
-        style={[mainStyles.normalFont, styles.input]}
-        placeholderTextColor={Colors.lightGray}
-        placeholder="Share your thoughts..."
-        multiline={true}
-        numberOfLines={4}
-        textAlignVertical="top"
+      <Controller
+        control={control}
+        name="text"
+        rules={{ required: true }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={[mainStyles.normalFont, styles.input]}
+            placeholderTextColor={Colors.lightGray}
+            placeholder="Share your thoughts..."
+            multiline={true}
+            numberOfLines={4}
+            textAlignVertical="top"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
       />
-      <Pressable style={styles.btn}>
+      <Pressable
+        style={isValid ? styles.btn : [styles.btn, styles.disabledBtn]}
+        onPress={handleSubmit(onSubmit)}
+        disabled={!isValid}
+      >
         <Text style={[mainStyles.normalFont, styles.btnText]}>Post</Text>
       </Pressable>
     </View>
@@ -51,5 +112,8 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: Colors.white,
+  },
+  disabledBtn: {
+    backgroundColor: Colors.lightGray,
   },
 });

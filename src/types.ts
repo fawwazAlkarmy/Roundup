@@ -78,3 +78,15 @@ export type AiPick = {
   url: string;
   url_to_image: string;
 };
+
+export type Comment = {
+  id: string;
+  user_id: string;
+  article_url: string;
+  comment_text: string;
+  created_at: string;
+};
+
+export type CommentData = {
+  text: string;
+};

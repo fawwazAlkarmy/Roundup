@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, FlatList } from "react-native";
 import { mainStyles } from "../../App";
 import Icon from "react-native-remix-icon";
 import { Colors } from "../colors";
@@ -9,12 +9,43 @@ import Animated, {
   SlideInDown,
 } from "react-native-reanimated";
 import CommentInputField from "./CommentInputField";
+import { Article, Comment } from "../types";
+import { supabase } from "../services/supabase";
+import { useEffect, useState } from "react";
 
 type Props = {
   toggleComments: () => void;
+  article: Article;
 };
 
-const Comments = ({ toggleComments }: Props) => {
+const Comments = ({ toggleComments, article }: Props) => {
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  const getComments = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("comments")
+        .select("*")
+        .eq("article_url", article.url);
+      if (error) {
+        console.log(error.message);
+        return;
+      }
+      setComments(data);
+    } catch (err) {
+      console.error("Error fetching comments:", err);
+      return;
+    }
+  };
+
+  useEffect(() => {
+    getComments();
+  }, [comments]);
+
+  const renderData = (item: Comment) => {
+    return <SingleComment comment={item} />;
+  };
+
   return (
     <Animated.View
       style={styles.container}
@@ -22,17 +53,34 @@ const Comments = ({ toggleComments }: Props) => {
       exiting={SlideOutDown.duration(500).easing(Easing.ease)}
     >
       <View style={styles.header}>
-        <Text style={[mainStyles.boldFont]}>Comments (12)</Text>
+        <Text style={[mainStyles.boldFont]}>Comments ({comments.length})</Text>
         <Pressable onPress={toggleComments}>
           <Icon name="close-circle-fill" color={Colors.primary} size={20} />
         </Pressable>
       </View>
-      <View style={styles.commentList}>
-        <SingleComment />
-        <SingleComment />
-      </View>
+      <FlatList
+        style={styles.commentList}
+        data={comments}
+        renderItem={({ item }) => renderData(item)}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
+        ListEmptyComponent={() => (
+          <Text
+            style={[
+              mainStyles.normalFont,
+              {
+                textAlign: "center",
+                marginVertical: 30,
+              },
+            ]}
+          >
+            No comments yet
+          </Text>
+        )}
+      />
       <View style={styles.inputContainer}>
-        <CommentInputField />
+        <CommentInputField article={article} />
       </View>
     </Animated.View>
   );

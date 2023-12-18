@@ -40,7 +40,7 @@ const ArticleDetails = ({ navigation }: Props) => {
   };
 
   if (showComments) {
-    return <Comments toggleComments={toggleComments} />;
+    return <Comments article={article} toggleComments={toggleComments} />;
   }
 
   return (
