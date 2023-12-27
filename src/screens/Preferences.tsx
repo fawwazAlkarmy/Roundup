@@ -15,12 +15,12 @@ const questions = [
     question: "Choose your favorite category",
     options: [
       "General",
-      "sports",
-      "business",
-      "health",
-      "science",
-      "technology",
-      "entertainment",
+      "Sports",
+      "Business",
+      "Health",
+      "Science",
+      "Technology",
+      "Entertainment",
     ],
   },
   {
