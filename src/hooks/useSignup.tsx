@@ -42,7 +42,7 @@ const useSignup = ({ navigation }: UseSignupProps) => {
         visibilityTime: 3000,
       });
       setTimeout(() => {
-        navigation.navigate("Login");
+        navigation.navigate("Preferences");
       }, 3000);
     }
   };

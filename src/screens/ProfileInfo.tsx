@@ -141,6 +141,32 @@ const ProfileInfo = ({ navigation }: Props) => {
           <View style={styles.line}></View>
         </>
       ) : null}
+
+      {/* More */}
+      <View style={styles.sectionContainer}>
+        <Text style={[mainStyles.boldFont]}>More</Text>
+        <Pressable
+          style={styles.iconTextContainer}
+          onPress={() => navigation.navigate("SavedArticles")}
+          disabled={true}
+        >
+          <Icon name="bookmark-fill" size={20} color={Colors.primary} />
+          <Text style={[mainStyles.normalFont]}>
+            {profile?.saved_articles.length} Saved Articles
+          </Text>
+        </Pressable>
+        <View style={styles.iconTextContainer}>
+          <Icon name="star-fill" size={20} color={Colors.primary} />
+          <Text style={[mainStyles.normalFont]}>
+            {profile?.favorite_category}
+          </Text>
+        </View>
+        <View style={styles.iconTextContainer}>
+          <Icon name="map-pin-fill" size={20} color={Colors.primary} />
+          <Text style={[mainStyles.normalFont]}>{profile?.location}</Text>
+        </View>
+      </View>
+      <View style={styles.line}></View>
       {/* Social Media */}
       <View style={styles.sectionContainer}>
         {profile?.facebook_url || profile?.instagram_url ? (

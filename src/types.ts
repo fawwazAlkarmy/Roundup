@@ -14,6 +14,7 @@ export type RootStackParamList = {
   ProfileInfo: { profile: ProfileType };
   Followers: undefined;
   Following: undefined;
+  Preferences: undefined;
 };
 
 export type Article = {
@@ -63,6 +64,8 @@ export type ProfileType = {
   avatar_url: string;
   facebook_url: string;
   instagram_url: string;
+  location: string;
+  favorite_category: string;
 };
 
 export type ProfileField = {

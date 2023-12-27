@@ -98,6 +98,16 @@ const Profile = ({ navigation }: Props) => {
               {profile?.saved_articles.length} Saved Articles
             </Text>
           </Pressable>
+          <View style={styles.iconTextContainer}>
+            <Icon name="star-fill" size={20} color={Colors.primary} />
+            <Text style={[mainStyles.normalFont]}>
+              {profile?.favorite_category}
+            </Text>
+          </View>
+          <View style={styles.iconTextContainer}>
+            <Icon name="map-pin-fill" size={20} color={Colors.primary} />
+            <Text style={[mainStyles.normalFont]}>{profile?.location}</Text>
+          </View>
         </View>
         <View style={styles.line}></View>
         {/* Social Media */}
@@ -150,6 +160,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
+    paddingVertical: 10,
   },
   profileImg: {
     width: 70,

@@ -15,6 +15,7 @@ import Community from "../screens/Community";
 import ProfileInfo from "../screens/ProfileInfo";
 import Followers from "../screens/Followers";
 import Following from "../screens/Following";
+import Preferences from "../screens/Preferences";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -94,6 +95,11 @@ const StackNavigator = () => {
       <Stack.Screen
         name="Following"
         component={Following}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Preferences"
+        component={Preferences}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
