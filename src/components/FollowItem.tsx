@@ -69,19 +69,25 @@ const FollowItem = ({ profile }: Props) => {
   };
   return (
     <View style={styles.row}>
-      {!profile?.avatar_url ? (
-        <View style={styles.defaultImage}>
-          <Text style={[mainStyles.boldFont, styles.defaultText]}>
-            {profile?.username[0]}
-          </Text>
-        </View>
-      ) : (
-        <Image style={styles.profileImg} source={{ uri: profile.avatar_url }} />
-      )}
+      <View style={styles.imgNameRow}>
+        {!profile?.avatar_url ? (
+          <View style={styles.defaultImage}>
+            <Text style={[mainStyles.boldFont, styles.defaultText]}>
+              {profile?.username[0]}
+            </Text>
+          </View>
+        ) : (
+          <Image
+            style={styles.profileImg}
+            source={{ uri: profile.avatar_url }}
+          />
+        )}
+        <Text style={[mainStyles.boldFont]}>{profile.username}</Text>
+      </View>
 
       <Pressable style={styles.btnContainer} onPress={handleFollow}>
         {isFollowed ? (
-          <Text style={[mainStyles.normalFont, styles.btnText]}>UnFollow</Text>
+          <Text style={[mainStyles.normalFont, styles.btnText]}>Remove</Text>
         ) : (
           <Text style={[mainStyles.normalFont, styles.btnText]}>Follow</Text>
         )}
@@ -98,9 +104,9 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   defaultImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     backgroundColor: Colors.secondary,
   },
   defaultText: {
@@ -110,13 +116,13 @@ const styles = StyleSheet.create({
     lineHeight: 60,
   },
   profileImg: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
   },
   btnContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 7,
+    paddingHorizontal: 16,
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
@@ -124,5 +130,10 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: Colors.white,
+  },
+  imgNameRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
   },
 });
